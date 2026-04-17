@@ -1954,3 +1954,848 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   추가 세부 스타일 (EPQD, DICS 개선)
+   ============================================ */
+
+/* EPQD 핵심 특징 카드 */
+.epqd-features {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.feature-card {
+  padding: 16px;
+  border-radius: 10px;
+  border: 2px solid;
+}
+
+.feature-card h5 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.feature-success {
+  background: #f0fdf4;
+  border-color: #10b981;
+}
+
+.feature-success h5 {
+  color: #059669;
+}
+
+.feature-warning {
+  background: #fffbf0;
+  border-color: #fbbf24;
+}
+
+.feature-warning h5 {
+  color: #d97706;
+}
+
+.feature-info {
+  background: #f0f9ff;
+  border-color: #0284c7;
+}
+
+.feature-info h5 {
+  color: #0369a1;
+}
+
+.feature-examples,
+.avoided-questions {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.example-item {
+  padding: 6px 10px;
+  margin: 4px 0;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: monospace;
+}
+
+.avoided-questions ul {
+  margin: 8px 0 0 20px;
+  list-style: disc;
+}
+
+.avoided-questions li {
+  margin: 4px 0;
+  color: #888;
+}
+
+.alignment-details {
+  margin-top: 10px;
+}
+
+.alignment-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.alignment-row .label {
+  color: #666;
+}
+
+.alignment-row .value {
+  font-weight: 600;
+  color: #111;
+}
+
+.alignment-status {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #059669;
+  text-align: center;
+}
+
+/* Fixed Top-K vs DICS 비교 */
+.topk-comparison {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+}
+
+.topk-comparison h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.comparison-item {
+  padding: 14px;
+  border-radius: 8px;
+  border: 2px solid;
+}
+
+.comparison-item.topk {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.comparison-item.dics {
+  background: #f0fdf4;
+  border-color: #10b981;
+}
+
+.comparison-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.comparison-item.topk .comparison-label {
+  color: #dc2626;
+}
+
+.comparison-item.dics .comparison-label {
+  color: #059669;
+}
+
+.comparison-item p {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.comparison-advantage {
+  padding: 12px;
+  background: #f0f9ff;
+  border-left: 3px solid #0284c7;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.target-chunks-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* Criterion별 청크 매핑 */
+.criterion-chunk-mapping {
+  margin: 20px 0;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+}
+
+.criterion-chunk-mapping h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 14px;
+}
+
+.criterion-mapping-item {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+
+.criterion-mapping-item:last-child {
+  margin-bottom: 0;
+}
+
+.criterion-mapping-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.chunk-count-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #10b981;
+  color: white;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.mapped-chunks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mapped-chunk-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 12px;
+  border-left: 3px solid #6c8dfa;
+}
+
+.chunk-preview {
+  flex: 1;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.criterion-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #6c8dfa;
+  color: white;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 4px;
+  font-family: monospace;
+}
+
+/* Minimal Context Highlight (Stage 5) */
+.minimal-context-highlight {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 12px;
+  border: 2px solid #0284c7;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.highlight-icon {
+  font-size: 48px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.highlight-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0369a1;
+  margin-bottom: 10px;
+}
+
+.highlight-content p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.highlight-content p:last-child {
+  margin-bottom: 0;
+}
+
+.highlight-note {
+  font-style: italic;
+  color: #0369a1;
+  font-weight: 500;
+}
+
+/* 최종 답변 버블 (채팅창에 표시) */
+.final-answer-bubble {
+  max-width: 90%;
+  align-self: flex-start;
+  background: white;
+  border: 2px solid #10b981;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 10px 0;
+  animation: fadeIn 0.4s ease-in;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f0fdf4;
+}
+
+.answer-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.answer-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.answer-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.answer-content strong {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Markdown Content 스타일 */
+.markdown-content {
+  line-height: 1.8;
+}
+
+.markdown-paragraph {
+  margin-bottom: 12px;
+}
+
+.markdown-list-item {
+  margin: 6px 0;
+  padding-left: 10px;
+}
+
+/* ========== Diagram Styles ========== */
+
+/* EPQD Diagram (Stage 2) */
+.epqd-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #faf5ff 100%);
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+.diagram-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #6c8dfa;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.original-question-box {
+  background: white;
+  padding: 16px 24px;
+  border-radius: 10px;
+  border: 2px solid #6c8dfa;
+  box-shadow: 0 2px 8px rgba(108, 141, 250, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  max-width: 600px;
+  text-align: center;
+}
+
+.diagram-arrow-down {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.diagram-arrow-down .arrow-icon {
+  font-size: 28px;
+  color: #6c8dfa;
+}
+
+.diagram-arrow-down .arrow-label {
+  font-size: 11px;
+  color: #6c8dfa;
+  font-weight: 600;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #e0e7ff;
+}
+
+.segments-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.segment-box {
+  background: white;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 2px solid #a78bfa;
+  box-shadow: 0 2px 6px rgba(167, 139, 250, 0.12);
+  min-width: 150px;
+  text-align: center;
+}
+
+.segment-label {
+  font-size: 11px;
+  color: #a78bfa;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.segment-entity {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.multi-arrows-down {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.multi-arrows-down .arrow-icon {
+  font-size: 24px;
+  color: #a78bfa;
+}
+
+.subquestions-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.subquestion-box {
+  background: #faf5ff;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #d8b4fe;
+  min-width: 180px;
+  max-width: 240px;
+}
+
+.subquestion-label {
+  font-size: 11px;
+  color: #a78bfa;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.subquestion-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Document Retrieval Diagram (Stage 3) */
+.retrieval-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.retrieval-section {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.retrieval-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c8dfa;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.document-cards {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.document-card {
+  background: #f8f9ff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e7ff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.document-card:hover {
+  border-color: #6c8dfa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 141, 250, 0.15);
+}
+
+.document-card .doc-emoji {
+  font-size: 18px;
+}
+
+.document-card .doc-id {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Question Graph Diagram (Stage 4) */
+.question-graph-container {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  padding: 24px;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.graph-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d97706;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.graph-visualization {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  margin: 20px 0;
+}
+
+.graph-node {
+  background: white;
+  padding: 14px 18px;
+  border-radius: 50%;
+  border: 3px solid #fbbf24;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  position: absolute;
+  z-index: 2;
+  line-height: 1.3;
+}
+
+.graph-node.core-node {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-color: #d97706;
+  border-width: 4px;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);
+  font-size: 14px;
+  width: 130px;
+  height: 130px;
+}
+
+.graph-node.core-node::after {
+  content: '⭐ Core';
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #d97706;
+  font-weight: 700;
+  white-space: nowrap;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+}
+
+.graph-edge-line {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.graph-edge-line svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.graph-edge-line line {
+  stroke: #fbbf24;
+  stroke-width: 2;
+}
+
+.graph-edge-line.primary line {
+  stroke: #d97706;
+  stroke-width: 3;
+}
+
+.graph-edge-arrow {
+  fill: #fbbf24;
+}
+
+.graph-edge-arrow.primary {
+  fill: #d97706;
+}
+
+.graph-edge-label {
+  position: absolute;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #d97706;
+  font-weight: 600;
+  border: 1px solid #fde68a;
+  white-space: nowrap;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+}
+
+.core-node-info {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+  margin-top: 24px;
+  font-size: 12px;
+  color: #78716c;
+  text-align: center;
+}
+
+/* Selection Criteria Diagram (Stage 4) */
+.criteria-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.criterion-section {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  border-left: 4px solid #6c8dfa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.criterion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.criterion-badge {
+  background: linear-gradient(135deg, #6c8dfa, #a78bfa);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.criterion-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.criterion-arrow {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 20px;
+  color: #6c8dfa;
+}
+
+.matched-chunks {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chunk-badge {
+  background: #10b981;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chunk-badge.filtered {
+  background: #e5e7eb;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+/* LLM Generation Flow (Stage 5) */
+.llm-flow-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.flow-step {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 2px solid #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+  min-width: 300px;
+  text-align: center;
+}
+
+.flow-step-title {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.flow-step-content {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.flow-arrow {
+  font-size: 32px;
+  color: #10b981;
+}
+
+.selected-chunks-flow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.selected-chunks-flow .chunk-badge {
+  background: #10b981;
+}
+
+/* 반응형 조정 */
+@media (max-width: 1024px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .minimal-context-highlight {
+    flex-direction: column;
+  }
+
+  .highlight-icon {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .epqd-features {
+    gap: 12px;
+  }
+
+  .feature-card {
+    padding: 12px;
+  }
+
+  .criterion-chunk-mapping {
+    padding: 12px;
+  }
+}

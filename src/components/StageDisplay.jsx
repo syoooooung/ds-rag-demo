@@ -81,95 +81,71 @@ function renderStage1(data) {
 }
 
 /**
- * Stage 2: EPQD
+ * Stage 2: EPQD - 다이어그램 형태
  */
 function renderStage2(data) {
+  const segments = [
+    { label: '비교 대상 1', entity: '찰리 채플린' },
+    { label: '비교 속성', entity: '아이코닉 지위' },
+    { label: '비교 대상 2', entity: '브루스 빌슨' }
+  ];
+
   return (
     <div className="stage-2-content">
-      <div className="info-section">
-        <h4>📋 원본 질문</h4>
-        <p className="original-question">{data.originalQuestion}</p>
-      </div>
+      {/* 다이어그램: 원본 질문 → 세그먼트 → 하위 질문 */}
+      <div className="epqd-diagram">
+        <h4 className="diagram-title">🔄 질문 분해 프로세스</h4>
 
-      {data.explanation && (
-        <div className="info-section">
-          <h4>💡 분해 프로세스</h4>
-          <p>{data.explanation}</p>
+        {/* 원본 질문 */}
+        <div className="original-question-box">
+          {data.originalQuestion}
         </div>
-      )}
 
-      {data.decompositionDetails && (
-        <div className="info-section">
-          <h4>🔍 식별된 요소</h4>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <strong>개체(Entities):</strong> {data.decompositionDetails.identifiedEntities.join(', ')}
-            </div>
-            <div className="detail-item">
-              <strong>비교 속성:</strong> {data.decompositionDetails.comparisonAttribute}
-            </div>
-            <div className="detail-item">
-              <strong>질문 유형:</strong> {data.decompositionDetails.questionType}
-            </div>
-          </div>
+        {/* 화살표 */}
+        <div className="diagram-arrow-down">
+          <div className="arrow-icon">↓</div>
+          <div className="arrow-label">분절 규칙 적용</div>
         </div>
-      )}
 
-      <div className="info-section">
-        <h4>📝 생성된 하위 질문</h4>
-        <p className="strategy-note">전략: {data.decompositionStrategy}</p>
-        <ol className="sub-questions">
-          {data.subQuestions.map((sq, idx) => (
-            <li key={idx}>{sq}</li>
+        {/* 세그먼트들 */}
+        <div className="segments-container">
+          {segments.map((seg, idx) => (
+            <div key={idx} className="segment-box">
+              <div className="segment-label">{seg.label}</div>
+              <div className="segment-entity">{seg.entity}</div>
+            </div>
           ))}
-        </ol>
+        </div>
+
+        {/* 화살표들 */}
+        <div className="multi-arrows-down">
+          <div className="arrow-icon">↓</div>
+          <div className="arrow-icon">↓</div>
+          <div className="arrow-icon">↓</div>
+        </div>
+
+        {/* 하위 질문들 */}
+        <div className="subquestions-container">
+          {data.subQuestions.map((sq, idx) => (
+            <div key={idx} className="subquestion-box">
+              <div className="subquestion-label">Q{idx + 1}</div>
+              <div className="subquestion-text">{sq}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* EPQD 핵심 특징 표시 */}
+      {/* 핵심 특징 (간단하게) */}
       {data.keyFeatures && (
-        <div className="info-section">
-          <h4>🎯 EPQD 핵심 특징</h4>
-          <div className="epqd-features">
-            {/* 엔티티 보존 */}
-            <div className="feature-card feature-success">
-              <h5>{data.keyFeatures.entityPreservation.title}</h5>
-              <p>{data.keyFeatures.entityPreservation.description}</p>
-              <div className="feature-examples">
-                {data.keyFeatures.entityPreservation.examples.map((ex, idx) => (
-                  <div key={idx} className="example-item">{ex}</div>
-                ))}
-              </div>
-            </div>
-
-            {/* 불필요한 서브질문 억제 */}
-            <div className="feature-card feature-warning">
-              <h5>{data.keyFeatures.unnecessarySupression.title}</h5>
-              <p>{data.keyFeatures.unnecessarySupression.description}</p>
-              <div className="avoided-questions">
-                <strong>회피된 불필요한 질문들:</strong>
-                <ul>
-                  {data.keyFeatures.unnecessarySupression.avoided.map((q, idx) => (
-                    <li key={idx}>{q}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* 세그먼트 정합성 */}
-            <div className="feature-card feature-info">
-              <h5>{data.keyFeatures.segmentAlignment.title}</h5>
-              <div className="alignment-details">
-                <div className="alignment-row">
-                  <span className="label">원문 세그먼트:</span>
-                  <span className="value">{data.keyFeatures.segmentAlignment.original}</span>
-                </div>
-                <div className="alignment-row">
-                  <span className="label">생성된 서브질문:</span>
-                  <span className="value">{data.keyFeatures.segmentAlignment.generated}</span>
-                </div>
-                <div className="alignment-status">{data.keyFeatures.segmentAlignment.status}</div>
-              </div>
-            </div>
+        <div className="epqd-features-compact">
+          <div className="feature-badge feature-success">
+            ✅ 엔티티 보존
+          </div>
+          <div className="feature-badge feature-warning">
+            🚫 불필요한 질문 억제
+          </div>
+          <div className="feature-badge feature-info">
+            ⚖️ 세그먼트 정합 (3→3)
           </div>
         </div>
       )}
@@ -178,42 +154,146 @@ function renderStage2(data) {
 }
 
 /**
- * Stage 3: Retrieval
+ * Question Graph 시각화 헬퍼 함수
+ */
+function renderQuestionGraph(graphData) {
+  // 노드 위치 설정 (삼각형 배치)
+  const nodePositions = {
+    '찰리 채플린': { x: '15%', y: '20%' },
+    '브루스 빌슨': { x: '15%', y: '70%' },
+    '아이코닉 지위': { x: '70%', y: '45%' }
+  };
+
+  // 엣지 그리기를 위한 좌표 계산
+  const getNodeCenter = (label) => {
+    const pos = nodePositions[label];
+    return {
+      x: parseFloat(pos.x),
+      y: parseFloat(pos.y)
+    };
+  };
+
+  // 주요 엣지 (찰리 채플린/브루스 빌슨 -> 아이코닉 지위)
+  const primaryEdges = graphData.edges.filter(
+    edge => edge.target === '아이코닉 지위'
+  );
+
+  return (
+    <>
+      {/* 노드 렌더링 */}
+      {graphData.nodes.map((node) => (
+        <div
+          key={node.id}
+          className={`graph-node ${node.importance === 'critical' ? 'core-node' : ''}`}
+          style={{
+            left: nodePositions[node.label].x,
+            top: nodePositions[node.label].y
+          }}
+        >
+          {node.label}
+        </div>
+      ))}
+
+      {/* 엣지 렌더링 - SVG로 화살표 그리기 */}
+      <svg
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 1
+        }}
+      >
+        <defs>
+          <marker
+            id="arrowhead-primary"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="3"
+            orient="auto"
+          >
+            <polygon points="0 0, 10 3, 0 6" fill="#d97706" />
+          </marker>
+        </defs>
+
+        {/* 찰리 채플린 -> 아이코닉 지위 */}
+        <line
+          x1="20%"
+          y1="25%"
+          x2="67%"
+          y2="47%"
+          stroke="#d97706"
+          strokeWidth="3"
+          markerEnd="url(#arrowhead-primary)"
+        />
+
+        {/* 브루스 빌슨 -> 아이코닉 지위 */}
+        <line
+          x1="20%"
+          y1="75%"
+          x2="67%"
+          y2="53%"
+          stroke="#d97706"
+          strokeWidth="3"
+          markerEnd="url(#arrowhead-primary)"
+        />
+      </svg>
+
+      {/* 엣지 레이블 */}
+      <div
+        className="graph-edge-label"
+        style={{ left: '43%', top: '32%' }}
+      >
+        여겨지다
+      </div>
+      <div
+        className="graph-edge-label"
+        style={{ left: '43%', top: '67%' }}
+      >
+        여겨지다
+      </div>
+    </>
+  );
+}
+
+/**
+ * Stage 3: Retrieval - 다이어그램 형태
  */
 function renderStage3(data) {
   return (
     <div className="stage-3-content">
-      <div className="stats-bar">
-        <div className="stat-badge">
-          <span className="stat-number">{data.totalChunksRetrieved}</span>
-          <span className="stat-label">총 검색된 청크</span>
-        </div>
-      </div>
+      <div className="retrieval-diagram">
+        {data.retrievalNote && (
+          <div className="note-box">
+            ℹ️ {data.retrievalNote}
+          </div>
+        )}
 
-      {data.retrievalNote && (
-        <div className="note-box">
-          ℹ️ {data.retrievalNote}
-        </div>
-      )}
-
-      <div className="retrieval-results">
         {data.retrievalResults.map((result, idx) => (
-          <div key={idx} className="retrieval-item">
-            <h4>📝 하위 질문 {idx + 1}: {result.subQuestion}</h4>
-            <p className="chunk-count">검색된 {result.chunkCount}개 청크:</p>
-            <div className="chunks-list">
+          <div key={idx} className="retrieval-section">
+            <div className="retrieval-section-title">
+              <span>Q{idx + 1}</span> {result.subQuestion}
+            </div>
+            <div className="document-cards">
               {result.chunks.map((chunk) => (
-                <div key={chunk.id} className="chunk">
-                  <div className="chunk-header">
-                    <span className="chunk-id">[{chunk.id}]</span>
-                    <span className="chunk-source">{chunk.source}</span>
-                  </div>
-                  <div className="chunk-text">{chunk.text}</div>
+                <div key={chunk.id} className="document-card" title={chunk.text}>
+                  <div className="doc-emoji">📄</div>
+                  <div className="doc-id">{chunk.id}</div>
                 </div>
               ))}
             </div>
           </div>
         ))}
+
+        <div className="stats-bar">
+          <div className="stat-badge">
+            <span className="stat-number">{data.totalChunksRetrieved}</span>
+            <span className="stat-label">총 검색된 청크</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -225,44 +305,18 @@ function renderStage3(data) {
 function renderStage4(data) {
   return (
     <div className="stage-4-content">
-      {/* Section 4a: Question Graph */}
+      {/* Section 4a: Question Graph - 시각적 그래프 */}
       <div className="dics-section">
         <h4>🕸️ 단계 4a: 질문 그래프 구축</h4>
         <p className="section-description">{data.questionGraph.description}</p>
 
-        <div className="graph-container">
-          <div className="graph-nodes">
-            <h5>노드 (개체 & 속성):</h5>
-            {data.questionGraph.nodes.map((node) => (
-              <div key={node.id} className={`graph-node node-${node.importance}`}>
-                <div className="node-header">
-                  <span className="node-label">{node.label}</span>
-                  <span className={`node-badge badge-${node.type.toLowerCase()}`}>
-                    {node.type}
-                  </span>
-                </div>
-                <div className="node-stats">
-                  <span>진입 차수: {node.inDegree}</span>
-                  <span>진출 차수: {node.outDegree}</span>
-                  {node.importance === 'critical' && (
-                    <span className="core-indicator">⭐ 코어 노드 후보</span>
-                  )}
-                </div>
-                {node.note && <div className="node-note">{node.note}</div>}
-              </div>
-            ))}
+        <div className="question-graph-container">
+          <div className="graph-title">질문 그래프 시각화</div>
+          <div className="graph-visualization">
+            {renderQuestionGraph(data.questionGraph)}
           </div>
-
-          <div className="graph-edges">
-            <h5>엣지 (관계):</h5>
-            {data.questionGraph.edges.map((edge) => (
-              <div key={edge.id} className="graph-edge">
-                <span className="edge-source">{edge.source}</span>
-                <span className="edge-arrow">→</span>
-                <span className="edge-target">{edge.target}</span>
-                <span className="edge-relation">({edge.relation})</span>
-              </div>
-            ))}
+          <div className="core-node-info">
+            진입 차수가 가장 높은 <strong>'{data.coreNodeIdentification.coreNode}'</strong>가 코어 노드로 선택됨
           </div>
         </div>
 
@@ -271,75 +325,42 @@ function renderStage4(data) {
         </div>
       </div>
 
-      {/* Section 4b: Core Node Identification */}
+      {/* Section 4b: Core Node Identification - 간소화 */}
       <div className="dics-section">
         <h4>🎯 단계 4b: 코어 노드 식별</h4>
-        <p className="section-description">
-          <strong>알고리즘:</strong> {data.coreNodeIdentification.algorithm}
-        </p>
-
-        <div className="process-steps">
-          <h5>프로세스:</h5>
-          <ol>
-            {data.coreNodeIdentification.process.map((step, idx) => (
-              <li key={idx}>{step}</li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="rankings-table">
-          <h5>노드 순위:</h5>
-          <table>
-            <thead>
-              <tr>
-                <th>순위</th>
-                <th>노드</th>
-                <th>진입 차수</th>
-                <th>코어로 선택</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.coreNodeIdentification.rankings.map((ranking, idx) => (
-                <tr key={idx} className={ranking.selected ? 'core-selected' : ''}>
-                  <td>{ranking.rank}</td>
-                  <td>{ranking.node}</td>
-                  <td><strong>{ranking.inDegree}</strong></td>
-                  <td>{ranking.selected ? '✓ 예' : '✗ 아니오'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
         <div className="core-result">
           <strong>결과:</strong> <span className="core-node-highlight">{data.coreNodeIdentification.coreNode}</span>가 코어 노드로 식별되었습니다.
           <p>{data.coreNodeIdentification.explanation}</p>
         </div>
       </div>
 
-      {/* Section 4c: Selection Criteria */}
+      {/* Section 4c: Selection Criteria - 시각적 다이어그램 */}
       <div className="dics-section">
         <h4>📌 단계 4c: 선택 기준 도출</h4>
         <p className="section-description">{data.selectionCriteria.description}</p>
 
-        <div className="criteria-list">
-          {data.selectionCriteria.criteria.map((criterion, idx) => (
-            <div key={criterion.id} className="criterion-item">
-              <div className="criterion-header">
-                <span className="criterion-id">{criterion.id}</span>
-                <span className="criterion-name">{criterion.criterion}</span>
-                <span className="relevance-badge">{(criterion.relevanceScore * 100).toFixed(0)}%</span>
-                {criterion.targetChunks && (
-                  <span className="target-chunks-badge">→ {criterion.targetChunks}개 청크 선택</span>
-                )}
+        <div className="criteria-diagram">
+          {data.selectionCriteria.criteria.map((criterion) => {
+            const matchedChunks = data.selectedChunks.filter(chunk =>
+              chunk.matchedCriteria.includes(criterion.id)
+            );
+            return (
+              <div key={criterion.id} className="criterion-section">
+                <div className="criterion-header">
+                  <div className="criterion-badge">{criterion.id}</div>
+                  <div className="criterion-text">{criterion.criterion}</div>
+                </div>
+                <div className="criterion-arrow">↓</div>
+                <div className="matched-chunks">
+                  {matchedChunks.map((chunk) => (
+                    <div key={chunk.id} className="chunk-badge">
+                      📄 {chunk.id}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="criterion-rationale">{criterion.rationale}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="criteria-explanation">
-          <strong>핵심 차별점:</strong> {data.selectionCriteria.explanation}
+            );
+          })}
         </div>
 
         {/* Fixed Top-K vs DICS 비교 */}
@@ -363,70 +384,54 @@ function renderStage4(data) {
         )}
       </div>
 
-      {/* Section 4d: Context Selection */}
+      {/* Section 4d: Context Selection - 간소화 */}
       <div className="dics-section">
         <h4>✨ 단계 4d: 컨텍스트 선택</h4>
         <p className="section-description">
-          도출된 기준을 적용하여 검색된 청크를 필터링하고 최적 컨텍스트를 선택합니다.
-          <strong> 각 기준(criterion)마다 가장 적합한 청크를 동적으로 선택합니다.</strong>
+          각 기준(criterion)마다 가장 적합한 청크를 동적으로 선택합니다.
         </p>
 
-        {/* Criterion별 선택된 청크 매핑 */}
-        <div className="criterion-chunk-mapping">
-          <h5>📊 기준별 청크 선택 (Criterion → Chunks)</h5>
-          {data.selectionCriteria.criteria.map((criterion) => {
-            const matchedChunks = data.selectedChunks.filter(chunk =>
-              chunk.matchedCriteria.includes(criterion.id)
-            );
-            return (
-              <div key={criterion.id} className="criterion-mapping-item">
-                <div className="criterion-mapping-header">
-                  <span className="criterion-id">{criterion.id}</span>
-                  <span className="criterion-name">{criterion.criterion}</span>
-                  <span className="chunk-count-badge">{matchedChunks.length}개 청크</span>
-                </div>
-                <div className="mapped-chunks">
-                  {matchedChunks.map((chunk) => (
-                    <div key={chunk.id} className="mapped-chunk-mini">
-                      <span className="chunk-id">[{chunk.id}]</span>
-                      <span className="chunk-preview">{chunk.text.substring(0, 80)}...</span>
-                      <span className="relevance-score">{(chunk.relevanceScore * 100).toFixed(0)}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="selected-chunks-section">
-          <h5>✓ 최종 선택된 청크 ({data.selectedChunks.length}개):</h5>
+        <div className="selected-chunks-flow">
           {data.selectedChunks.map((chunk) => (
-            <div key={chunk.id} className="selected-chunk">
-              <div className="chunk-header">
-                <span className="chunk-id">[{chunk.id}]</span>
-                <span className="chunk-source">{chunk.source}</span>
-                <span className="relevance-score">{(chunk.relevanceScore * 100).toFixed(0)}%</span>
-              </div>
-              <div className="chunk-text">{chunk.text}</div>
-              <div className="selection-meta">
-                <div className="selection-reason">
-                  <strong>선택 이유:</strong> {chunk.selectionReason}
-                </div>
-                <div className="matched-criteria">
-                  <strong>매칭된 기준:</strong> {chunk.matchedCriteria.map(id => (
-                    <span key={id} className="criterion-tag">{id}</span>
-                  ))}
-                </div>
-              </div>
+            <div key={chunk.id} className="chunk-badge">
+              📄 {chunk.id}
             </div>
           ))}
         </div>
 
-        <div className="rejected-chunks-section">
-          <h5>✗ 거부된 청크 ({data.rejectedChunks.length}개):</h5>
-          <details>
-            <summary>거부된 청크 및 이유 보기</summary>
+        <details style={{ marginTop: '16px' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 600, color: '#6c8dfa' }}>
+            선택된 청크 상세 정보 ({data.selectedChunks.length}개)
+          </summary>
+          <div className="selected-chunks-section" style={{ marginTop: '12px' }}>
+            {data.selectedChunks.map((chunk) => (
+              <div key={chunk.id} className="selected-chunk">
+                <div className="chunk-header">
+                  <span className="chunk-id">[{chunk.id}]</span>
+                  <span className="chunk-source">{chunk.source}</span>
+                  <span className="relevance-score">{(chunk.relevanceScore * 100).toFixed(0)}%</span>
+                </div>
+                <div className="chunk-text">{chunk.text}</div>
+                <div className="selection-meta">
+                  <div className="selection-reason">
+                    <strong>선택 이유:</strong> {chunk.selectionReason}
+                  </div>
+                  <div className="matched-criteria">
+                    <strong>매칭된 기준:</strong> {chunk.matchedCriteria.map(id => (
+                      <span key={id} className="criterion-tag">{id}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </details>
+
+        <details style={{ marginTop: '12px' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 600, color: '#9ca3af' }}>
+            거부된 청크 ({data.rejectedChunks.length}개)
+          </summary>
+          <div className="rejected-chunks-section" style={{ marginTop: '12px' }}>
             {data.rejectedChunks.map((chunk, idx) => (
               <div key={idx} className="rejected-chunk">
                 <div className="chunk-header">
@@ -438,8 +443,8 @@ function renderStage4(data) {
                 </div>
               </div>
             ))}
-          </details>
-        </div>
+          </div>
+        </details>
       </div>
 
       {/* Statistics */}
@@ -473,12 +478,56 @@ function renderStage4(data) {
 }
 
 /**
- * Stage 5: LLM Generation
+ * Stage 5: LLM Generation - 플로우 다이어그램
  */
 function renderStage5(data) {
   return (
     <div className="stage-5-content">
-      {/* 핵심 강조: 최소 컨텍스트 */}
+      {/* LLM 생성 플로우 다이어그램 */}
+      <div className="llm-flow-diagram">
+        <div className="flow-step">
+          <div className="flow-step-title">선택된 청크</div>
+          <div className="flow-step-content">
+            DICS가 선택한 {data.contextUsed}개의 핵심 청크
+          </div>
+          <div className="selected-chunks-flow">
+            {Array.from({ length: data.contextUsed }, (_, i) => (
+              <div key={i} className="chunk-badge">
+                📄 Chunk {i + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flow-arrow">↓</div>
+
+        <div className="flow-step">
+          <div className="flow-step-title">컨텍스트 조립</div>
+          <div className="flow-step-content">
+            최소한의 컨텍스트로 프롬프트 구성
+          </div>
+        </div>
+
+        <div className="flow-arrow">↓</div>
+
+        <div className="flow-step">
+          <div className="flow-step-title">LLM 생성</div>
+          <div className="flow-step-content">
+            {data.generationMethod}
+          </div>
+        </div>
+
+        <div className="flow-arrow">↓</div>
+
+        <div className="flow-step">
+          <div className="flow-step-title">최종 답변</div>
+          <div className="flow-step-content">
+            {data.answerQuality}
+          </div>
+        </div>
+      </div>
+
+      {/* 최소 컨텍스트 강조 */}
       <div className="minimal-context-highlight">
         <div className="highlight-icon">⚡</div>
         <div className="highlight-content">
@@ -491,24 +540,16 @@ function renderStage5(data) {
         </div>
       </div>
 
-      <div className="generation-info">
-        <div className="info-row">
-          <strong>방법:</strong> {data.generationMethod}
+      <details style={{ marginTop: '16px' }}>
+        <summary style={{ cursor: 'pointer', fontWeight: 600, color: '#10b981' }}>
+          최종 답변 보기
+        </summary>
+        <div className="final-answer-section" style={{ marginTop: '12px' }}>
+          <div className="final-answer">
+            <MarkdownText content={data.finalAnswer} />
+          </div>
         </div>
-        <div className="info-row">
-          <strong>사용된 컨텍스트:</strong> 신중하게 선택된 {data.contextUsed}개 청크 (DICS 선택)
-        </div>
-        <div className="info-row">
-          <strong>답변 품질:</strong> {data.answerQuality}
-        </div>
-      </div>
-
-      <div className="final-answer-section">
-        <h4>📋 최종 답변</h4>
-        <div className="final-answer">
-          <MarkdownText content={data.finalAnswer} />
-        </div>
-      </div>
+      </details>
 
       {data.tokenEstimate && (
         <div className="token-estimate">
